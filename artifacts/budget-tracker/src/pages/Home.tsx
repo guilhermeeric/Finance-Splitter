@@ -262,25 +262,24 @@ export default function Home() {
           {/* Balance + split labels in one row */}
           <div className="flex items-center justify-between mb-1.5">
             <div className="flex items-baseline gap-2">
-              <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold hidden md:block">Balanço</p>
               <p
                 data-testid="text-remaining"
-                className={`text-2xl md:text-3xl font-mono font-medium tracking-tight leading-none ${remaining < 0 ? "text-destructive" : "text-primary"}`}
+                className={`text-sm font-mono font-medium leading-none ${remaining < 0 ? "text-destructive" : "text-muted-foreground"}`}
               >
                 {formatBRL(remaining)}
               </p>
             </div>
-            <div className={`flex items-center gap-3 text-xs transition-opacity ${remaining <= 0 ? "opacity-30" : "opacity-100"}`}>
+            <div className={`flex items-center gap-3 transition-opacity ${remaining <= 0 ? "opacity-30" : "opacity-100"}`}>
               <div className="text-right">
-                <span className="text-muted-foreground">Inv.</span>
-                <span data-testid="text-invest-amount" className="font-mono font-medium ml-1">{formatBRL(investAmount)}</span>
-                <span className="text-muted-foreground ml-1">({budget.investSplit}%)</span>
+                <span className="text-muted-foreground text-[10px] uppercase tracking-wide">Inv.</span>
+                <span data-testid="text-invest-amount" className="font-mono font-medium text-lg ml-1 text-primary">{formatBRL(investAmount)}</span>
+                <span className="text-muted-foreground text-xs ml-1">({budget.investSplit}%)</span>
               </div>
-              <div className="w-px h-4 bg-border" />
+              <div className="w-px h-5 bg-border" />
               <div>
-                <span className="text-muted-foreground">Pou.</span>
-                <span data-testid="text-savings-amount" className="font-mono font-medium ml-1">{formatBRL(savingsAmount)}</span>
-                <span className="text-muted-foreground ml-1">({100 - budget.investSplit}%)</span>
+                <span className="text-muted-foreground text-[10px] uppercase tracking-wide">Pou.</span>
+                <span data-testid="text-savings-amount" className="font-mono font-medium text-lg ml-1">{formatBRL(savingsAmount)}</span>
+                <span className="text-muted-foreground text-xs ml-1">({100 - budget.investSplit}%)</span>
               </div>
             </div>
           </div>
