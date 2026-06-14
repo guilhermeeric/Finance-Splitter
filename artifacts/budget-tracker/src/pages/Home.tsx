@@ -200,7 +200,7 @@ export default function Home() {
   };
 
   return (
-    <div className="h-[100dvh] bg-background text-foreground flex flex-col overflow-hidden">
+    <div className="h-svh bg-background text-foreground flex flex-col overflow-hidden">
 
       {/* ── Header ── */}
       <header className="flex-shrink-0 flex items-center justify-between px-4 pt-5 pb-3 md:px-10 md:pt-8 md:pb-4">
@@ -257,21 +257,21 @@ export default function Home() {
 
       {/* ── Bottom summary ── */}
       <footer className="flex-shrink-0 bg-card border-t shadow-[0_-8px_32px_rgba(0,0,0,0.04)]">
-        <div className="px-4 py-4 md:px-10 md:py-6 max-w-5xl mx-auto">
+        <div className="px-4 py-3 md:px-10 md:py-5 max-w-5xl mx-auto">
 
           {/* Balance row */}
-          <div className="flex items-baseline justify-between mb-4">
+          <div className="flex items-center justify-between mb-3">
             <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold mb-0.5">Balanço Final</p>
+              <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold leading-none mb-1">Balanço Final</p>
               <p
                 data-testid="text-remaining"
-                className={`text-3xl md:text-4xl font-mono font-medium tracking-tight ${remaining < 0 ? "text-destructive" : "text-primary"}`}
+                className={`text-2xl md:text-3xl font-mono font-medium tracking-tight leading-none ${remaining < 0 ? "text-destructive" : "text-primary"}`}
               >
                 {formatBRL(remaining)}
               </p>
             </div>
             {remaining < 0 && (
-              <p className="text-destructive text-xs max-w-[140px] text-right leading-snug">
+              <p className="text-destructive text-xs max-w-[130px] text-right leading-snug">
                 Gastos maiores que receitas
               </p>
             )}
@@ -279,16 +279,16 @@ export default function Home() {
 
           {/* Slider + split amounts */}
           <div className={`transition-opacity duration-400 ${remaining <= 0 ? "opacity-30 pointer-events-none" : "opacity-100"}`}>
-            <div className="flex justify-between items-baseline mb-3 text-sm">
+            <div className="flex justify-between items-center mb-2 text-xs">
               <div>
                 <span className="text-primary font-medium">Investimentos</span>
                 <span className="text-muted-foreground ml-1">({budget.investSplit}%)</span>
-                <p data-testid="text-invest-amount" className="font-mono text-base mt-0.5">{formatBRL(investAmount)}</p>
+                <p data-testid="text-invest-amount" className="font-mono text-sm mt-0.5">{formatBRL(investAmount)}</p>
               </div>
               <div className="text-right">
                 <span className="text-accent font-medium">Poupança</span>
-                <span className="text-muted-foreground mr-1 ml-1">({100 - budget.investSplit}%)</span>
-                <p data-testid="text-savings-amount" className="font-mono text-base mt-0.5">{formatBRL(savingsAmount)}</p>
+                <span className="text-muted-foreground ml-1">({100 - budget.investSplit}%)</span>
+                <p data-testid="text-savings-amount" className="font-mono text-sm mt-0.5">{formatBRL(savingsAmount)}</p>
               </div>
             </div>
 
