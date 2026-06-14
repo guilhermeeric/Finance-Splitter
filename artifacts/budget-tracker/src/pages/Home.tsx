@@ -259,26 +259,29 @@ export default function Home() {
       <footer className="flex-shrink-0 bg-card border-t shadow-[0_-8px_32px_rgba(0,0,0,0.04)]">
         <div className="px-4 py-2.5 md:px-10 md:py-5 max-w-5xl mx-auto">
 
-          {/* Balance + split labels in one row */}
-          <div className="flex items-center justify-between mb-1.5">
-            <div className="flex items-baseline gap-2">
-              <p
-                data-testid="text-remaining"
-                className={`text-sm font-mono font-medium leading-none ${remaining < 0 ? "text-destructive" : "text-muted-foreground"}`}
-              >
-                {formatBRL(remaining)}
-              </p>
-            </div>
-            <div className={`flex items-center gap-3 transition-opacity ${remaining <= 0 ? "opacity-30" : "opacity-100"}`}>
-              <div className="text-right">
+          {/* Line 1: total balance (small) */}
+          <div className="flex items-center gap-2 mb-1">
+            <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">Balanço</p>
+            <p
+              data-testid="text-remaining"
+              className={`text-sm font-mono font-medium leading-none ${remaining < 0 ? "text-destructive" : "text-muted-foreground"}`}
+            >
+              {formatBRL(remaining)}
+            </p>
+          </div>
+
+          {/* Line 2: split amounts (big) */}
+          <div className={`flex items-center justify-between mb-1.5 transition-opacity ${remaining <= 0 ? "opacity-30" : "opacity-100"}`}>
+            <div className="flex items-center gap-3">
+              <div>
                 <span className="text-muted-foreground text-[10px] uppercase tracking-wide">Inv.</span>
-                <span data-testid="text-invest-amount" className="font-mono font-medium text-lg ml-1 text-primary">{formatBRL(investAmount)}</span>
+                <span data-testid="text-invest-amount" className="font-mono font-semibold text-xl ml-1 text-primary">{formatBRL(investAmount)}</span>
                 <span className="text-muted-foreground text-xs ml-1">({budget.investSplit}%)</span>
               </div>
               <div className="w-px h-5 bg-border" />
               <div>
                 <span className="text-muted-foreground text-[10px] uppercase tracking-wide">Pou.</span>
-                <span data-testid="text-savings-amount" className="font-mono font-medium text-lg ml-1">{formatBRL(savingsAmount)}</span>
+                <span data-testid="text-savings-amount" className="font-mono font-semibold text-xl ml-1">{formatBRL(savingsAmount)}</span>
                 <span className="text-muted-foreground text-xs ml-1">({100 - budget.investSplit}%)</span>
               </div>
             </div>
