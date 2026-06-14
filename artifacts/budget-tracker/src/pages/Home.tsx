@@ -203,7 +203,7 @@ export default function Home() {
     <div className="h-svh bg-background text-foreground flex flex-col overflow-hidden">
 
       {/* ── Header ── */}
-      <header className="flex-shrink-0 flex items-center justify-between px-4 pt-5 pb-3 md:px-10 md:pt-8 md:pb-4">
+      <header className="flex-shrink-0 flex items-center justify-between px-4 pt-3 pb-2 md:px-10 md:pt-8 md:pb-4">
         <div>
           <h1 className="text-3xl md:text-4xl font-serif text-primary font-medium tracking-tight leading-none">Fluxo</h1>
           <p className="text-muted-foreground text-sm md:text-base font-serif italic mt-0.5">Clareza financeira mensal.</p>
@@ -238,7 +238,7 @@ export default function Home() {
       <div className="flex-1 min-h-0 overflow-hidden">
 
         {/* Mobile: single active tab */}
-        <div className="md:hidden h-full px-4 pt-3 pb-2 overflow-y-auto">
+        <div className="md:hidden h-full px-4 pt-3 pb-2 overflow-hidden flex flex-col">
           {activeTab === "income"
             ? <Column {...incomeColumnProps} />
             : <Column {...expenseColumnProps} />}
@@ -257,12 +257,12 @@ export default function Home() {
 
       {/* ── Bottom summary ── */}
       <footer className="flex-shrink-0 bg-card border-t shadow-[0_-8px_32px_rgba(0,0,0,0.04)]">
-        <div className="px-4 py-3 md:px-10 md:py-5 max-w-5xl mx-auto">
+        <div className="px-4 py-2.5 md:px-10 md:py-5 max-w-5xl mx-auto">
 
-          {/* Balance row */}
-          <div className="flex items-center justify-between mb-3">
-            <div>
-              <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold leading-none mb-1">Balanço Final</p>
+          {/* Balance + split labels in one row */}
+          <div className="flex items-center justify-between mb-1.5">
+            <div className="flex items-baseline gap-2">
+              <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold hidden md:block">Balanço</p>
               <p
                 data-testid="text-remaining"
                 className={`text-2xl md:text-3xl font-mono font-medium tracking-tight leading-none ${remaining < 0 ? "text-destructive" : "text-primary"}`}
@@ -270,28 +270,23 @@ export default function Home() {
                 {formatBRL(remaining)}
               </p>
             </div>
-            {remaining < 0 && (
-              <p className="text-destructive text-xs max-w-[130px] text-right leading-snug">
-                Gastos maiores que receitas
-              </p>
-            )}
-          </div>
-
-          {/* Slider + split amounts */}
-          <div className={`transition-opacity duration-400 ${remaining <= 0 ? "opacity-30 pointer-events-none" : "opacity-100"}`}>
-            <div className="flex justify-between items-center mb-2 text-xs">
-              <div>
-                <span className="text-primary font-medium">Investimentos</span>
-                <span className="text-muted-foreground ml-1">({budget.investSplit}%)</span>
-                <p data-testid="text-invest-amount" className="font-mono text-sm mt-0.5">{formatBRL(investAmount)}</p>
-              </div>
+            <div className={`flex items-center gap-3 text-xs transition-opacity ${remaining <= 0 ? "opacity-30" : "opacity-100"}`}>
               <div className="text-right">
-                <span className="text-accent font-medium">Poupança</span>
+                <span className="text-muted-foreground">Inv.</span>
+                <span data-testid="text-invest-amount" className="font-mono font-medium ml-1">{formatBRL(investAmount)}</span>
+                <span className="text-muted-foreground ml-1">({budget.investSplit}%)</span>
+              </div>
+              <div className="w-px h-4 bg-border" />
+              <div>
+                <span className="text-muted-foreground">Pou.</span>
+                <span data-testid="text-savings-amount" className="font-mono font-medium ml-1">{formatBRL(savingsAmount)}</span>
                 <span className="text-muted-foreground ml-1">({100 - budget.investSplit}%)</span>
-                <p data-testid="text-savings-amount" className="font-mono text-sm mt-0.5">{formatBRL(savingsAmount)}</p>
               </div>
             </div>
+          </div>
 
+          {/* Slider */}
+          <div className={`transition-opacity ${remaining <= 0 ? "opacity-30 pointer-events-none" : "opacity-100"}`}>
             <Slider
               value={[budget.investSplit]}
               min={0}
