@@ -1,22 +1,24 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Budget Tracker API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Anonymous session management
+  - name: budget
+    description: Budget management
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +26,50 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /auth/session:
+    post:
+      operationId: createSession
+      tags: [auth]
+      summary: Create or resume anonymous session
+      responses:
+        "200":
+          description: Session created or resumed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Session"
+
+  /budget:
+    get:
+      operationId: getBudget
+      tags: [budget]
+      summary: Get current budget
+      responses:
+        "200":
+          description: Budget data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Budget"
+    put:
+      operationId: saveBudget
+      tags: [budget]
+      summary: Save budget
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BudgetInput"
+      responses:
+        "200":
+          description: Budget saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Budget"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +80,64 @@ components:
       required:
         - status
 
+    Session:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        isNew:
+          type: boolean
+      required:
+        - sessionId
+        - isNew
+
+    BudgetItem:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        amount:
+          type: number
+      required:
+        - id
+        - label
+        - amount
+
+    Budget:
+      type: object
+      properties:
+        incomeItems:
+          type: array
+          items:
+            $ref: "#/components/schemas/BudgetItem"
+        expenseItems:
+          type: array
+          items:
+            $ref: "#/components/schemas/BudgetItem"
+        investSplit:
+          type: number
+          description: "Percentage (0-100) allocated to investing vs savings"
+      required:
+        - incomeItems
+        - expenseItems
+        - investSplit
+
+    BudgetInput:
+      type: object
+      properties:
+        incomeItems:
+          type: array
+          items:
+            $ref: "#/components/schemas/BudgetItem"
+        expenseItems:
+          type: array
+          items:
+            $ref: "#/components/schemas/BudgetItem"
+        investSplit:
+          type: number
+      required:
+        - incomeItems
+        - expenseItems
+        - investSplit
